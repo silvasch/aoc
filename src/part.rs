@@ -4,28 +4,33 @@ use crate::{Example, Solver};
 
 pub struct Part<'a, O>
 where
-    O: PartialEq + Display,
+    O: Display + PartialEq,
 {
-    pub(crate) solver: &'a dyn Solver<O>,
-    pub(crate) example: Example<'a, O>,
+    solver: &'a dyn Solver<'a, O>,
+    example: Example<'a, O>,
 }
 
 impl<'a, O> Part<'a, O>
 where
-    O: PartialEq + Display,
+    O: Display + PartialEq,
 {
-    pub fn new(solver: &'a dyn Solver<O>, example: Example<'a, O>) -> Self {
+    pub fn new(solver: &'a dyn Solver<'a, O>, example: Example<'a, O>) -> Self {
         Self { solver, example }
     }
 
-    pub fn get_solution(&self, input: &'a str) -> Result<O, String> {
-        self.solver.solve(input)
+    pub(crate) fn solve(&self, input: &'a str) -> Result<O, String> {
+        match self.solver.solve(input) {
+            Some(output) => output,
+            None => Err(format!("'{}' is not yet implemented.", self.solver.name())),
+        }
     }
 
-    pub fn check_example(&self) -> Result<(bool, O), String> {
-        // Ok(self.solver.solve(&self.example.input)? == self.example.expected_output)
-        let output = self.solver.solve(&self.example.input)?;
-        let result = output == self.example.expected_output;
-        Ok((result, output))
+    pub(crate) fn check(&self) -> Result<(bool, O), String> {
+        let output = self.solve(self.example.input)?;
+        Ok((output == self.example.expected_output, output))
+    }
+
+    pub(crate) fn get_solver_name(&self) -> &'a str {
+        self.solver.name()
     }
 }

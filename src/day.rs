@@ -4,41 +4,49 @@ use crate::Part;
 
 pub struct Day<'a, O1, O2>
 where
-    O1: PartialEq + Display,
-    O2: PartialEq + Display,
+    O1: Display + PartialEq,
+    O2: Display + PartialEq,
 {
-    pub(crate) part_one: Part<'a, O1>,
-    pub(crate) part_two: Part<'a, O2>,
+    input: &'a str,
 
-    pub(crate) input: &'a str,
+    part_one: Part<'a, O1>,
+    part_two: Part<'a, O2>,
 }
 
 impl<'a, O1, O2> Day<'a, O1, O2>
 where
-    O1: PartialEq + Display,
-    O2: PartialEq + Display,
+    O1: Display + PartialEq,
+    O2: Display + PartialEq,
 {
-    pub fn new(part_one: Part<'a, O1>, part_two: Part<'a, O2>, input: &'a str) -> Day<'a, O1, O2> {
+    pub fn new(input: &'a str, part_one: Part<'a, O1>, part_two: Part<'a, O2>) -> Self {
         Self {
+            input,
             part_one,
             part_two,
-            input,
         }
     }
 
-    pub fn get_part_one_solution(&self) -> Result<O1, String> {
-        self.part_one.get_solution(&self.input)
+    pub(crate) fn solve_one(&self) -> Result<O1, String> {
+        self.part_one.solve(self.input)
     }
 
-    pub fn get_part_two_solution(&self) -> Result<O2, String> {
-        self.part_two.get_solution(&self.input)
+    pub(crate) fn solve_two(&self) -> Result<O2, String> {
+        self.part_two.solve(self.input)
     }
 
-    pub fn check_part_one_example(&self) -> Result<(bool, O1), String> {
-        self.part_one.check_example()
+    pub(crate) fn check_one(&self) -> Result<(bool, O1), String> {
+        self.part_one.check()
     }
 
-    pub fn check_part_two_example(&self) -> Result<(bool, O2), String> {
-        self.part_two.check_example()
+    pub(crate) fn check_two(&self) -> Result<(bool, O2), String> {
+        self.part_two.check()
+    }
+
+    pub(crate) fn get_solver_one_name(&self) -> &'a str {
+        self.part_one.get_solver_name()
+    }
+
+    pub(crate) fn get_solver_two_name(&self) -> &'a str {
+        self.part_two.get_solver_name()
     }
 }
