@@ -1,3 +1,6 @@
+mod cli;
+pub use cli::run;
+
 mod day;
 pub use day::Day;
 

@@ -7,6 +7,9 @@ where
     O1: Display + PartialEq,
     O2: Display + PartialEq,
 {
+    day_number: u8,
+    day_name: &'a str,
+
     input: &'a str,
 
     part_one: Part<'a, O1>,
@@ -18,8 +21,16 @@ where
     O1: Display + PartialEq,
     O2: Display + PartialEq,
 {
-    pub fn new(input: &'a str, part_one: Part<'a, O1>, part_two: Part<'a, O2>) -> Self {
+    pub fn new(
+        day_number: u8,
+        day_name: &'a str,
+        input: &'a str,
+        part_one: Part<'a, O1>,
+        part_two: Part<'a, O2>,
+    ) -> Self {
         Self {
+            day_number,
+            day_name,
             input,
             part_one,
             part_two,
@@ -48,5 +59,12 @@ where
 
     pub(crate) fn get_solver_two_name(&self) -> &'a str {
         self.part_two.get_solver_name()
+    }
+
+    pub(crate) fn get_day_description(&self) -> String {
+        format!(
+            "Advent of Code - Day {}: {}",
+            self.day_number, self.day_name
+        )
     }
 }
