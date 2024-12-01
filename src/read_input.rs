@@ -1,21 +1,15 @@
 use std::str::FromStr;
 
 pub fn read_input(day: u32) -> Result<String, ReadInputError<String>> {
-    std::fs::read_to_string(format!(
-        "{}/inputs/day{:0>2}/input.txt",
-        location_macros::crate_dir!(),
-        day
-    ))
-    .map(|v| v.trim().to_string())
-    .map_err(|e| ReadInputError::ReadInput(e))
+    std::fs::read_to_string(format!("./inputs/day{:0>2}/input.txt", day))
+        .map(|v| v.trim().to_string())
+        .map_err(|e| ReadInputError::ReadInput(e))
 }
 
 pub fn read_example_input(day: u32, part: u32) -> Result<String, ReadInputError<String>> {
     std::fs::read_to_string(format!(
-        "{}/inputs/day{:0>2}/part{:0>2}-example-input.txt",
-        location_macros::crate_dir!(),
-        day,
-        part
+        "./inputs/day{:0>2}/part{:0>2}-example-input.txt",
+        day, part
     ))
     .map(|v| v.trim().to_string())
     .map_err(|e| ReadInputError::ReadInput(e))
@@ -26,10 +20,8 @@ pub fn read_example_output<O: std::fmt::Debug + FromStr>(
     part: u32,
 ) -> Result<O, ReadInputError<O>> {
     std::fs::read_to_string(format!(
-        "{}/inputs/day{:0>2}/part{:0>2}-example-output.txt",
-        location_macros::crate_dir!(),
-        day,
-        part
+        "./inputs/day{:0>2}/part{:0>2}-example-output.txt",
+        day, part
     ))
     .map_err(|e| ReadInputError::ReadInput(e))?
     .trim()
