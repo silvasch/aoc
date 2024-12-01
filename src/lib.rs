@@ -10,7 +10,5 @@ pub use example::Example;
 mod part;
 pub use part::Part;
 
-mod read_input;
-
 mod solver;
 pub use solver::Solver;
